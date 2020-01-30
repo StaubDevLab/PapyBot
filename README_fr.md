@@ -3,7 +3,7 @@
 
 # PapyBot
 
-##Pourquoi ce programme?
+## Pourquoi ce programme?
 **PapyBot** est un *chatbot* qui a pour but de raconter l'histoire du lieu que nous souhaitons visiter? 
 Il suffit donc à l'utilisateur d'utiliser la fenêtre de dialogue et d'indiquer un lieu à PapyBot, ce dernier se chargera de trier les informations écrites par l'utilisateur et n'en retiendra que le lieu. Après quelques secondes de réflexion il affichera ce lieu sur une carte et en racontera l'histoire tiré de [**Wikipedia**](https://fr.wikipedia.org/wiki/Wikipédia:Accueil_principal).
 Si vous voulez donc percer le secret des parages proche de chez vous, **demandez donc à PapyBot**.

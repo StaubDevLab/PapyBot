@@ -7,6 +7,9 @@ verify_ssl = true
 pytest = "*"
 
 [packages]
+requests = "*"
+unidecode = "*"
+stop-words = "*"
 
 [requires]
 python_version = "3.7"
