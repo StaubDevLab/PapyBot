@@ -1,6 +1,5 @@
 import unidecode
 import re
-from stop_words import get_stop_words
 
 
 class Parser:
@@ -23,6 +22,3 @@ class Parser:
 
 if __name__ == "__main__":
     pass
-
-
-

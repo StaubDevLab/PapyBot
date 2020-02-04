@@ -4,7 +4,7 @@ import pytest
 
 @pytest.fixture
 def initialize_parser_class():
-    pars = Parser("Pourrais tu me où se situe la Tour Eiffel")
+    pars = Parser("Pourrais-tu me dire où se situe la Tour Eiffel")
     return pars
 
 
