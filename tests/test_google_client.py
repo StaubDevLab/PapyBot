@@ -42,7 +42,7 @@ def test_get_location_return_correct_format(monkeypatch, initialize_google_clien
 
 
 def test_get_location_when_api_return_nothing(monkeypatch, initialize_google_client_class):
-    result_nothing = []
+    result_nothing = {}
 
     def mock_response_empty(*args, **kwargs):
         return MockRequestsGet(result=results["ZERO_RESULTS"])
@@ -53,7 +53,7 @@ def test_get_location_when_api_return_nothing(monkeypatch, initialize_google_cli
 
 
 def test_get_location_when_api_return_access_denied(monkeypatch, tmpdir, initialize_google_client_class, capsys):
-    result_access_denied = []
+    result_access_denied = {}
 
     def mock_response_access_denied(*args, **kwargs):
         return MockRequestsGet(result=results["REQUEST_DENIED"])
@@ -70,7 +70,7 @@ def test_get_location_when_api_return_access_denied(monkeypatch, tmpdir, initial
 
 
 def test_get_location_when_requests_return_bad_status_code(tmpdir, monkeypatch, initialize_google_client_class, capsys):
-    result_error_server = []
+    result_error_server = {}
 
     def mock_response_error_server(*args, **kwargs):
         return MockRequestsGet(result=[], st_code=400)
@@ -88,7 +88,7 @@ def test_get_location_when_requests_return_bad_status_code(tmpdir, monkeypatch, 
 
 
 def test_get_location_requests_result_key_error(monkeypatch, initialize_google_client_class):
-    result_key_error = []
+    result_key_error = {}
 
     def mock_response_error_result(*args, **kwargs):
         return MockRequestsGet(result={"bad_key": ""})
