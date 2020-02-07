@@ -4,8 +4,8 @@ import re
 
 class Parser:
 
-    def __init__(self, question: str):
-        self.question = question
+    def __init__(self):
+        self.question = None
 
     def _regex(self):
         regex = re.compile(r"(l'adresse de|ou se situe|aller (\w)*|partir (\w)*|ou est)\s+(?P<lieu>[^.?!,]*)")
@@ -13,8 +13,8 @@ class Parser:
         self.question = result.group("lieu")
         return self.question
 
-    def clean(self):
-        self.question = self.question.lower()
+    def clean(self, question):
+        self.question = question.lower()
         self.question = unidecode.unidecode(self.question)
         self._regex()
         return self.question

@@ -3,7 +3,6 @@ import pytest
 import requests
 
 
-
 @pytest.fixture(autouse=True)
 def initialize_google_client_class():
     google = gclient("paris")
@@ -26,12 +25,17 @@ class MockRequestsGet:
 
 results = {"ZERO_RESULTS": {"results": [], "status": "ZERO_RESULTS"},
            "REQUEST_DENIED": {"results": [], "status": "REQUEST_DENIED"},
-           "RESULT_NOT_EMPTY": {"results": [{"geometry": {"location": {"lat": 48.856614, "lng": 2.3522219}}
-                                             }]}}
+           "RESULT_NOT_EMPTY": {"results": [{"geometry": {"location": {"lat": 40.7484405, "lng": -73.985664}},
+                                             "formatted_address": "20 W 34th St, New York, NY 10001, USA",
+                                             "types": ["establishment", "point_of_interest", "tourist_attraction"]}
+                                            ]}}
 
 
 def test_get_location_return_correct_format(monkeypatch, initialize_google_client_class):
-    correct_result = {"lat": 48.856614, "lng": 2.3522219}
+    correct_result = {"coordinates": {"lat": 40.7484405, "lng": -73.985664},
+                      "full_address": "20 W 34th St, New York, NY 10001, USA",
+                      "types_place": ["establishment", "point_of_interest", "tourist_attraction"],
+                      "error": ""}
 
     def mock_response_not_empty(*args, **kwargs):
         return MockRequestsGet(result=results["RESULT_NOT_EMPTY"])
@@ -42,7 +46,10 @@ def test_get_location_return_correct_format(monkeypatch, initialize_google_clien
 
 
 def test_get_location_when_api_return_nothing(monkeypatch, initialize_google_client_class):
-    result_nothing = {}
+    result_nothing = {"coordinates": "",
+                      "full_address": "",
+                      "types_place": "",
+                      "error": "GoogleMaps API : No Result Found"}
 
     def mock_response_empty(*args, **kwargs):
         return MockRequestsGet(result=results["ZERO_RESULTS"])
@@ -53,7 +60,10 @@ def test_get_location_when_api_return_nothing(monkeypatch, initialize_google_cli
 
 
 def test_get_location_when_api_return_access_denied(monkeypatch, tmpdir, initialize_google_client_class, capsys):
-    result_access_denied = {}
+    result_access_denied = {"coordinates": "",
+                            "full_address": "",
+                            "types_place": "",
+                            "error": "GoogleMaps API : No Result Found"}
 
     def mock_response_access_denied(*args, **kwargs):
         return MockRequestsGet(result=results["REQUEST_DENIED"])
@@ -70,7 +80,10 @@ def test_get_location_when_api_return_access_denied(monkeypatch, tmpdir, initial
 
 
 def test_get_location_when_requests_return_bad_status_code(tmpdir, monkeypatch, initialize_google_client_class, capsys):
-    result_error_server = {}
+    result_error_server = {"coordinates": "",
+                           "full_address": "",
+                           "types_place": "",
+                           "error": "GoogleMaps API : Problem Server"}
 
     def mock_response_error_server(*args, **kwargs):
         return MockRequestsGet(result=[], st_code=400)
@@ -88,7 +101,10 @@ def test_get_location_when_requests_return_bad_status_code(tmpdir, monkeypatch, 
 
 
 def test_get_location_requests_result_key_error(monkeypatch, initialize_google_client_class):
-    result_key_error = {}
+    result_key_error = {"coordinates": "",
+                        "full_address": "",
+                        "types_place": "",
+                        "error": "GoogleMaps API : No Result Found"}
 
     def mock_response_error_result(*args, **kwargs):
         return MockRequestsGet(result={"bad_key": ""})

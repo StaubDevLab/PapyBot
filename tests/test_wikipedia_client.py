@@ -2,10 +2,14 @@ from app.wikipedia_client import WikiClient as wikiclient
 import pytest
 import requests
 
+result_google_client = {"coordinates": {"lat": 40.7484405, "lng": -73.985664},
+                        "full_address": "20 W 34th St, New York, NY 10001, USA",
+                        "types_place": ["establishment", "point_of_interest", "tourist_attraction"]}
+
 
 @pytest.fixture(autouse=True)
 def initialize_wikipedia_client_class():
-    wikipedia = wikiclient({"lat": 48.856614, "lng": 2.3522219})
+    wikipedia = wikiclient()
     return wikipedia
 
 
@@ -50,7 +54,7 @@ results = {
 
 
 def test_wiki_client_geosearch_return_nothing(monkeypatch, initialize_wikipedia_client_class):
-    result_nothing = {}
+    result_nothing = {"title": "", "wiki_url": "", "extract": "", "error": "No result found in Wikipedia"}
 
     def mock_response_empty(*args, **kwargs):
         return MockRequestsGet(result={})
@@ -62,7 +66,7 @@ def test_wiki_client_geosearch_return_nothing(monkeypatch, initialize_wikipedia_
 
     monkeypatch.setattr("app.wikipedia_client.WikiClient._geosearch", mock_geosearch_response_noothing)
 
-    assert initialize_wikipedia_client_class.search_page() == result_nothing
+    assert initialize_wikipedia_client_class.search_page(result_google_client) == result_nothing
 
 
 def test_wiki_client_geosearch_return_pageids(monkeypatch, initialize_wikipedia_client_class):
@@ -71,7 +75,8 @@ def test_wiki_client_geosearch_return_pageids(monkeypatch, initialize_wikipedia_
                      "wiki_url": "https://fr.wikipedia.org/wiki/Incendie_de_Notre-Dame_de_Paris",
                      "extract": "L’incendie de Notre-Dame de Paris est un incendie majeur survenu "
                                 "à la cathédrale Notre-Dame de Paris, les 15 et 16 avril 2019, pendant près de "
-                                "15 heures."}
+                                "15 heures.",
+                     "error": ""}
 
     def mock_normal_response(*args, **kwargs):
         return MockRequestsGet(result=results["NORMAL_RESULT_SEARCH_PAGE"])
@@ -83,11 +88,11 @@ def test_wiki_client_geosearch_return_pageids(monkeypatch, initialize_wikipedia_
 
     monkeypatch.setattr("app.wikipedia_client.WikiClient._geosearch", mock_geosearch_normal_response)
 
-    assert initialize_wikipedia_client_class.search_page() == normal_result
+    assert initialize_wikipedia_client_class.search_page(result_google_client) == normal_result
 
 
 def test_wiki_client_searchpage_requests_exception(monkeypatch, initialize_wikipedia_client_class, capsys):
-    result_error_server = {}
+    result_error_server = {"title": "", "wiki_url": "", "extract": "", "error": "Problem Server"}
 
     def mock_response_error_server(*args, **kwargs):
         return MockRequestsGet(result={}, st_code=400)
@@ -102,14 +107,14 @@ def test_wiki_client_searchpage_requests_exception(monkeypatch, initialize_wikip
     monkeypatch.setattr("app.wikipedia_client.WikiClient._geosearch", mock_geosearch)
     monkeypatch.setattr("logging.critical", mock_logging_critical)
 
-    assert initialize_wikipedia_client_class.search_page() == result_error_server
+    assert initialize_wikipedia_client_class.search_page(result_google_client) == result_error_server
 
     captured = capsys.readouterr()
     assert captured.out == "CRITICAL :: There is a problem with the server HTTP - Code HTTP : 400"
 
 
 def test_wiki_client_searchpage_return_keyerror(monkeypatch, initialize_wikipedia_client_class, capsys):
-    result_key_error = {}
+    result_key_error = {"title": "", "wiki_url": "", "extract": "", "error": "No result found in Wikipedia"}
 
     def mock_response_error_server(*args, **kwargs):
         return MockRequestsGet(result=results["KEY_EEROR_RESULT"], st_code=200)
@@ -124,7 +129,7 @@ def test_wiki_client_searchpage_return_keyerror(monkeypatch, initialize_wikipedi
     monkeypatch.setattr("app.wikipedia_client.WikiClient._geosearch", mock_geosearch)
     monkeypatch.setattr("logging.error", mock_logging_error)
 
-    assert initialize_wikipedia_client_class.search_page() == result_key_error
+    assert initialize_wikipedia_client_class.search_page(result_google_client) == result_key_error
 
     captured = capsys.readouterr()
     assert captured.out == "ERROR :: There is a problem with MediaWiki searchpage answer"

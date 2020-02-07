@@ -2,82 +2,74 @@ import requests
 import logging
 
 
+class GPSCoordinatesError(Exception):
+    pass
+
+
 class WikiClient:
 
-    def __init__(self, coordinates: dict):
-        self.coordinates = coordinates
+    def __init__(self):
+        self.coordinates = None
         self._url = "https://fr.wikipedia.org/w/api.php"
         self._payload_geosearch = {
             "action": "query",
             "list": "geosearch",
-            "gscoord": f"{self.coordinates['lat']}|{self.coordinates['lng']}",
+            "gscoord": "",
             "format": "json",
             "gradius": 3000}
         self._pageids = None
         self._payload_search_page = {
             "action": "query",
             "prop": "info|extracts",
-            "pageids": self._pageids,
+            "pageids": "",
             "inprop": "url",
             "exchars": 300,
+            "explaintext":"",
             "format": "json"
         }
-        self.result = {}
+        self.result = {"title": "", "wiki_url": "", "extract": "", "error": ""}
 
-    def _clean_geosearch(self):
+    def is_valid(self, coords):
         try:
-            self.result = self.result["query"]["geosearch"][0]["pageid"]
+            dict_coords = f"{coords['coordinates']['lat']}|{coords['coordinates']['lng']}"
         except KeyError:
-            logging.error("There is a problem with MediaWiki geosearch answer")
-            self.result = {}
+            self.result["error"] = "Wrong format of gps coordinates"
+            raise GPSCoordinatesError
+        return dict_coords
+
+    def _clean_searchpage(self, dict_to_clean):
+        self.result = {"title": dict_to_clean["query"]["pages"][str(self._pageids)]["title"],
+                       "wiki_url": dict_to_clean["query"]["pages"][str(self._pageids)]["fullurl"],
+                       "extract": dict_to_clean["query"]["pages"][str(self._pageids)]["extract"],
+                       "error": ""}
         return self.result
 
-    def _clean_searchpage(self):
-        try:
-            self.result = {"title": self.result["query"]["pages"][str(self._pageids)]["title"],
-                           "wiki_url": self.result["query"]["pages"][str(self._pageids)]["fullurl"],
-                           "extract": self.result["query"]["pages"][str(self._pageids)]["extract"]}
-        except KeyError:
-            logging.error("There is a problem with MediaWiki searchpage answer")
-            self.result = {}
-        return self.result
+    def _geosearch(self, coords):
+        self._payload_geosearch['gscoord'] = self.is_valid(coords)
+        result_requests = requests.get(self._url, params=self._payload_geosearch)
+        result_json = result_requests.json()
+        geo_coords = result_json["query"]["geosearch"][0]["pageid"]
+        return geo_coords
 
-    def _geosearch(self):
+    def search_page(self, coords):
         try:
-            result_requests = requests.get(self._url, params=self._payload_geosearch)
-            self.result = result_requests.json()
-            if self.result["query"]["geosearch"]:
-                self._clean_geosearch()
-            elif self.result['error']:
-                logging.error("Bad usage api, error : %s", self.result["error"]["code"])
-                raise AssertionError
-            else:
-                self.result = {}
-        except requests.exceptions.HTTPError:
-            logging.critical(
-                f"There is a problem with the server HTTP - Code HTTP : %s", result_requests.status_code())
-        except requests.exceptions.RequestException:
-            pass
-        except (AssertionError, KeyError):
-            self.result = {}
-        finally:
-            return self.result
-
-    def search_page(self):
-        self._pageids = self._geosearch()
-        try:
+            self._pageids = self._geosearch(coords)
+            self._payload_search_page["pageids"]= self._pageids
             result_requests = requests.get(self._url, params=self._payload_search_page)
-            self.result = result_requests.json()
-            if self.result["query"]:
-                self._clean_searchpage()
-            else:
-                raise KeyError
+            result_json = result_requests.json()
+            self.result = self._clean_searchpage(result_json)
         except requests.exceptions.HTTPError:
             logging.critical(
                 f"There is a problem with the server HTTP - Code HTTP : %s", result_requests.status_code())
-        except requests.exceptions.RequestException:
-            pass
+            self.result["error"] = "Problem Server"
         except (AssertionError, KeyError):
-            self.result = {}
+            logging.error("ERROR :: There is a problem with MediaWiki searchpage answer")
+            self.result["error"] = "No result found in Wikipedia"
+        except GPSCoordinatesError:
+            self.result["error"] = "Wrong GPS coordinates format"
         finally:
             return self.result
+
+
+if __name__ == "__main__":
+    pass
