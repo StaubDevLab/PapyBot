@@ -76,6 +76,7 @@ def test_wiki_client_geosearch_return_pageids(monkeypatch, initialize_wikipedia_
                      "extract": "L’incendie de Notre-Dame de Paris est un incendie majeur survenu "
                                 "à la cathédrale Notre-Dame de Paris, les 15 et 16 avril 2019, pendant près de "
                                 "15 heures.",
+                     "image": "",
                      "error": ""}
 
     def mock_normal_response(*args, **kwargs):

@@ -27,7 +27,10 @@ results = {"ZERO_RESULTS": {"results": [], "status": "ZERO_RESULTS"},
            "REQUEST_DENIED": {"results": [], "status": "REQUEST_DENIED"},
            "RESULT_NOT_EMPTY": {"results": [{"geometry": {"location": {"lat": 40.7484405, "lng": -73.985664}},
                                              "formatted_address": "20 W 34th St, New York, NY 10001, USA",
-                                             "types": ["establishment", "point_of_interest", "tourist_attraction"]}
+                                             "types": ["establishment", "point_of_interest", "tourist_attraction"],
+                                             "address_components": [{"long_name": "New York", "short_name": "",
+                                                                     "types": ["locality", "political"]}]
+                                             }
                                             ]}}
 
 
@@ -35,6 +38,7 @@ def test_get_location_return_correct_format(monkeypatch, initialize_google_clien
     correct_result = {"coordinates": {"lat": 40.7484405, "lng": -73.985664},
                       "full_address": "20 W 34th St, New York, NY 10001, USA",
                       "types_place": ["establishment", "point_of_interest", "tourist_attraction"],
+                      "town": "New York",
                       "error": ""}
 
     def mock_response_not_empty(*args, **kwargs):

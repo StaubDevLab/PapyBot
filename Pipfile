@@ -10,6 +10,7 @@ pytest = "*"
 requests = "*"
 unidecode = "*"
 stop-words = "*"
+flask = "*"
 
 [requires]
 python_version = "3.7"

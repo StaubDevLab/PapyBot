@@ -1,0 +1,403 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap');
+body{
+    font-family: 'Roboto', 'sans-serif';
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+#site{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1.5fr 5fr;
+    grid-template-rows: 0.7fr 5fr 1fr 0.5fr;
+    grid-template-areas:
+    "aside header"
+    "aside messageArea"
+    "aside inputArea"
+    "footer footer";
+}
+
+
+header{
+    grid-area: header;
+    text-align: center;
+    font-family: 'Roboto Condensed', sans-serif;
+    border-bottom: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+header>h1{
+    margin-bottom: 0;
+}
+.btn-dark-mode{
+    margin-bottom: 10px;
+    align-self: center;
+    background:#35363A ;
+    padding: 4px;
+    border-radius: 3px;
+    color: #F2F2F2;
+    box-shadow: 5px 5px 5px silver;
+
+}
+.btn-dark-mode:hover{
+    cursor: pointer;
+    opacity:0.6;
+}
+.btn-dark-mode:active{
+    box-shadow :1px 1px 1px silver;
+    background :white;
+}
+
+
+aside{
+    grid-area: aside;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-left: 10px;
+    padding-right: 8px;
+    border-right: 1px solid grey;
+}
+.nameAside{
+    align-self: center;
+    margin-bottom: 50px;
+    margin-top: 10px;
+}
+.nameAside>img{
+    border: 2px solid grey;
+    border-radius: 50px;
+    box-shadow: 5px 5px 5px grey;
+    padding: 4px;
+}
+.textAside{
+    margin-bottom: 15px;
+
+
+}
+.attributAside{
+    font-weight: bold;
+}
+
+.messageArea{
+    grid-area: messageArea;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+
+}
+
+.blocPapy{
+    align-self: flex-start;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-left: 8px;
+    margin-right: 14px;
+}
+
+
+
+.messagePapy{
+    position: relative;
+    max-width: 500px;
+    padding: 12px;
+    margin-top: 10px;
+    margin-left: 15px;
+    border-radius: 10px;
+    text-align: justify;
+    background: #F1F1F1;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+
+}
+.loading  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.messagePapy:after{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 18px solid transparent;
+    border-right-color: #F1F1F1;
+    border-left: 0;
+    border-bottom: 0;
+    margin-top: -9px;
+    margin-left: -12px;
+}
+.messagePapy a{
+    color:#5D38FF;
+    text-decoration: none;
+
+}
+
+.messagePapy a:hover{
+    opacity: 0.6;
+}
+.blocUser{
+    display: flex;
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-right: 8px;
+    margin-top: 15px;
+}
+.messageUser{
+    position: relative;
+    max-width: 500px;
+    padding: 12px;
+    margin-top: 10px;
+    margin-right: 10px;
+    border-radius: 10px;
+    text-align: justify;
+    background: linear-gradient(to right,#5D38FF, #863CFF);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
+    color: #F2F2F2;
+}
+
+.messageUser:after{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: #863CFF;
+    border-right: 0;
+    border-bottom: 0;
+    margin-top: -5px;
+    margin-right: -10px;
+
+}
+
+.inputArea{
+    grid-area: inputArea;
+    padding-bottom: 10px;
+
+
+
+}
+form{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    height: 100%;
+    padding-left:  10px;
+}
+
+input{
+    position: relative;
+    top:-4px;
+    width: 100%;
+    height: 35%;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    padding-left: 12px;
+    background: #F2F2F2;
+
+}
+
+input:focus{
+    outline: none;
+}
+.button{
+    align-self: flex-end;
+    margin-left: 8px;
+
+
+}
+.button:hover{
+
+}
+.button>button{
+    background: none;
+    border: none;
+    padding: 0;
+    transform: rotate(45deg);
+    outline: none;
+    display: none;
+}
+.button>button:hover{
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+footer{
+    grid-area: footer;
+    border-top: 1px solid grey;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-left: 10px;
+    font-style: italic;
+}
+.socialNetwork{
+    display: flex;
+    width: 25%;
+    min-width: 400px;
+    justify-content: flex-end;
+
+}
+.socialNetwork>a:hover{
+    opacity: 0.6;
+}
+.socialNetwork a>img{
+    margin: 0 15px 0 0;
+}
+
+.socialNetwork a>img[src*="github"]{
+    background-color: #F2F2F2;
+    border-radius: 50px;
+}
+@media all and (max-width: 950px){
+    #site{
+        grid-template-columns: 1fr;
+        grid-template-areas: "header"
+        "messageArea"
+        "inputArea"
+        "footer";
+    }
+    aside{
+        display: none;
+    }
+    .inputArea{
+        margin-right: 10px;
+    }
+}
+
+.dark{
+    background: #222222;
+    color: white;
+}
+.dark .nameAside>img{
+    box-shadow: 5px 5px 5px black;
+}
+
+.dark .messagePapy{
+    background:#3D4043;
+}
+.dark .messagePapy:after{
+    border-right-color: #3D4043;
+}
+.dark .messagePapy a{
+    color:#7B3DF6;
+    text-decoration: none;
+
+}
+
+.dark .messagePapy a:hover{
+    opacity: 0.6;
+}
+
+.dark input::placeholder{
+    color:grey;
+}
+
+.dark input{
+    background:#3D4043;
+    color:white;
+}
+
+.dark .btn-dark-mode{
+    background:white;
+    color:black;
+    box-shadow:5px 5px 5px black;
+}
+
+.dark .btn-dark-mode:hover{
+    cursor: pointer;
+    opacity:0.6;
+}
+
+.dark .btn-dark-mode:active{
+    box-shadow :1px 1px 1px silver;
+    background :#35363A;
+}
+
+
+.loader {
+  position: relative;
+  width: 80px;
+  margin: 40px auto;
+}
+
+.duo {
+  height: 20px;
+  width: 50px;
+  background: rgba(255, 255, 255, 0);
+  position: absolute;
+
+}
+
+.duo, .dot {
+  animation-duration: 0.8s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+.duo1 {
+  left: 0;
+}
+
+.duo2 {
+  left: 30px
+}
+
+
+.dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: #fff;
+  position: absolute;
+}
+
+.dot-a {
+  left: 0px;
+}
+
+.dot-b {
+  right: 0px;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg) }
+   50% { transform: rotate(180deg) }
+  100% { transform: rotate(180deg) }
+}
+
+@keyframes onOff {
+    0% { opacity: 0; }
+   49% { opacity: 0; }
+   50% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.duo1 {
+  animation-name: spin;
+}
+
+.duo2 {
+  animation-name: spin;
+  animation-direction: reverse;
+}
+
+.duo2 .dot-b {
+  animation-name: onOff;
+}
+
+.duo1 .dot-a {
+  opacity: 0;
+  animation-name: onOff;
+  animation-direction: reverse;
+}
