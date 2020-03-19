@@ -8,7 +8,6 @@ body{
 /* Global Structure*/
 #site{
     width: 100vw;
-    height: 100vh;
     margin: 0;
     padding: 0;
     display: grid;
@@ -224,6 +223,7 @@ aside{
 .inputArea{
     grid-area: inputArea;
     padding-bottom: 10px;
+    min-height: 1fr;
 }
 
 form{
@@ -279,6 +279,7 @@ footer{
     justify-content: flex-end;
     align-items: center;
     font-style: italic;
+    min-height: 0.5fr;
 
 }
 .socialNetwork{
@@ -301,10 +302,10 @@ footer{
     border-radius: 50px;
 }
 /*Defines responsive mode*/
-@media all and (max-width: 950px){
+@media screen and (max-width: 950px){
     #site{
         grid-template-columns: 1fr;
-        grid-template-rows: 0.7fr 5fr 1fr 0.5fr;
+        grid-template-rows: 0.7fr 4fr 1fr 0.5fr;
         grid-template-areas: "header"
         "messageArea"
         "inputArea"

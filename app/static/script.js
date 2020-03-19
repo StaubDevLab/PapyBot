@@ -3,7 +3,12 @@ let formulaire = document.querySelector("form");
 let input = document.querySelector("input");
 let darkBtn = document.querySelector('.btn-dark-mode');
 
-
+//Responsive Mode
+function resetHeight(){
+    document.querySelector('#site').style.height=window.innerHeight +"px";
+}
+window.addEventListener("resize", resetHeight);
+resetHeight()
 
 //DarkMode Event
 function darkMode(){
