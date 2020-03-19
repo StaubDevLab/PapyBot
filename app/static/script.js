@@ -84,13 +84,34 @@ function papyAnswer(response, balise) {
     
     </ul>
    
-    Ca te plaît? Alors mets un pouce bleu, non je rigole t'es pas sur Youtube.<br>`,
+    Ca te plaît? Alors mets un pouce bleu, non je rigole t'es pas sur Youtube.<br>
+    Retrouve directement cet article sur  <a href="${response.papybot_answer.wiki_url}">Wikipedia.com</a>`,
     `J'aime vraiment la ville de <strong>${response.position.town}</strong>. Et si je te
      racontais une histoire sur : <strong>${response.papybot_answer.title}</strong><br>
     ${response.papybot_answer.extract}
-    Tu peux retrouver la suite de cette histoire en allant sur le lien de la bulle du dessous.<br>`];
+    <br>Tu peux retrouver la suite de cette histoire en allant sur le lien suivant : 
+   <a href="${response.papybot_answer.wiki_url}" target="_blank">Wikipedia.com</a><br>`];
 
     balise.innerHTML = randomChoice(answers);
+
+}
+
+function errorAnswer(response, balise) {
+
+    balise.innerHTML  = `Oula gamin(e), tu vas bien trop vite pour mon vieil âge. Je n'ai malheuresement pas compris ce que
+     tu m'as demandé. <br>
+    Tu sais je me fais sourd et c'est difficile pour moi de comprendre les jeunes de ton âge. <br>
+    Pour bien que je te comprenne écris ta demande sous cette forme : <br>
+    <ul>
+        <li>Donne moi l'adresse de {ton lieu}</li>
+        <li>Dis moi où se situe {ton lieu}</li>
+        <li>Je veux aller à {ton lieu}</li>
+        <li>Je veux partir à {ton lieu}</li>
+        <li>Ou est {ton lieu}</li>
+        <li>{ton lieu}</li>
+    </ul>
+    A toi gamin(e)!`;
+
 
 }
 
@@ -169,7 +190,12 @@ function bubblePapyBotLoading(){
 function bubblePapyBot(response) {
     messagePapy = document.querySelector('.blocPapy:last-child .messagePapy');
     messagePapy.classList.remove('loading');
-    papyAnswer(response,messagePapy);
+    if (response.papybot_answer.extract){
+        papyAnswer(response,messagePapy);
+    }else{
+        errorAnswer(response, messagePapy);
+    };
+
     console.log(response);
     if(response.position.coordinates){
        bubbleMaps(response);
@@ -200,14 +226,18 @@ formulaire.addEventListener('submit',(e)=>{
     document.querySelector(`.blocPapy:last-child`).scrollIntoView();
      postData('/ajax', new FormData(formulaire))
     .then(response =>{
-        bubblePapyBot(response);
-        initMap(response);
-        document.querySelector(`.blocPapy:last-child`).scrollIntoView();
-        wait(1500);
-
+        if (response.papybot_answer.extract){
+            wait(1500);
+            bubblePapyBot(response);
+            initMap(response);
+            document.querySelector(`.blocPapy:last-child`).scrollIntoView();
+        }else{
+            wait(1500);
+            bubblePapyBot(response);
+            document.querySelector(`.blocPapy:last-child`).scrollIntoView();
+        }
     });
      input.value="";
-
 });
 
 //Event that displays the send button when the user types on the keyboard
