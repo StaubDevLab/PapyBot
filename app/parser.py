@@ -44,10 +44,14 @@ class Parser:
         Returns:
             str : Contains only the information that will be used to request the APIs
         """
-        self.question = question.lower()
-        self.question = unidecode.unidecode(self.question)
-        self._regex()
-        return self.question
+        try:
+            self.question = question.lower()
+            self.question = unidecode.unidecode(self.question)
+            self._regex()
+        except:
+            self.question = self.question
+        finally:
+            return self.question
 
 
 if __name__ == "__main__":

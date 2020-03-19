@@ -1,6 +1,7 @@
 from app.google_client import GoogleClient
 from app.wikipedia_client import WikiClient
 from app.parser import Parser
+from app.layout_wiki_extract import layout
 import random
 
 
@@ -34,10 +35,6 @@ class PapyBot:
                 "research": self.parser,
                 "error": self.error}
 
-    def welcome_sentences(self):
-        sentences = []
-        return random.choice(sentences)
-
     def main(self, question):
         """
         Main method which instantiates the classes necessary for the operation
@@ -58,6 +55,9 @@ class PapyBot:
 
         initialize_wiki_client = WikiClient()
         self.wiki_answer = initialize_wiki_client.search_page(self.google_answer)
+        
+        if self.wiki_answer['extract']:
+            self.wiki_answer['extract'] = layout(self.wiki_answer['extract'])
 
         self.papy_answer = self._format_return_datas()
         return self.papy_answer

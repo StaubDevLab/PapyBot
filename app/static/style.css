@@ -5,6 +5,7 @@ body{
     margin: 0;
     padding: 0;
 }
+/* Global Structure*/
 #site{
     width: 100vw;
     height: 100vh;
@@ -20,7 +21,7 @@ body{
     "footer footer";
 }
 
-
+/* Header Structure */
 header{
     grid-area: header;
     text-align: center;
@@ -29,11 +30,12 @@ header{
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
 
-}
 header>h1{
-    margin-bottom: 0;
+    margin-bottom: 5px;
 }
+/*Dark Mode Button Design */
 .btn-dark-mode{
     margin-bottom: 10px;
     align-self: center;
@@ -54,6 +56,7 @@ header>h1{
 }
 
 
+/*Aside Structure*/
 aside{
     grid-area: aside;
     display: flex;
@@ -83,14 +86,15 @@ aside{
     font-weight: bold;
 }
 
+/* Definition of the message area */
 .messageArea{
     grid-area: messageArea;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
-
+    overflow:scroll;
 }
 
+/*Definition of the block PapyBot */
 .blocPapy{
     align-self: flex-start;
     display: flex;
@@ -98,10 +102,10 @@ aside{
     justify-content: flex-end;
     margin-left: 8px;
     margin-right: 14px;
+    flex-shrink: 0;
+
 }
-
-
-
+/* Definition of the PapyBot bubble */
 .messagePapy{
     position: relative;
     max-width: 500px;
@@ -114,11 +118,7 @@ aside{
     box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
 
 }
-.loading  {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+/*Add comic book effect*/
 .messagePapy:after{
     content: '';
     position: absolute;
@@ -132,23 +132,67 @@ aside{
     border-bottom: 0;
     margin-top: -9px;
     margin-left: -12px;
+    z-index: -1;
 }
-.messagePapy a{
-    color:#5D38FF;
-    text-decoration: none;
-
+/*Defines the position of the elements in the loading bubble*/
+.loading  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .messagePapy a:hover{
-    opacity: 0.6;
+    opacity: 0.7;
 }
+.messagePapy a{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+    text-decoration: none;
+}
+
+/*Allows the image to take up all the space in the bubble*/
+.link{
+    padding:0;
+}
+
+/*Sets the style of the link bubble*/
+.banniere{
+  padding:1px 6px 3px 10px;
+  color: black;
+  margin-top: 5px;
+
+}
+.banniere span{
+  color:#7f7a79
+}
+/*Defines the image extracted from Wikipedia*/
+.imageWiki{
+    height: 100%;
+    width: 100%;
+}
+.imageWiki img{
+    max-width: 100%;
+    height: 200px;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px 10px 0 0;
+}
+.maps{
+    min-height: 250px;
+    min-width: 300px;
+}
+/*Defines the style of the user block*/
 .blocUser{
     display: flex;
     justify-content: flex-end;
     align-self: flex-end;
     margin-right: 8px;
     margin-top: 15px;
+    flex-shrink: 0;
 }
+
+/*Defines the style of the user bubble*/
 .messageUser{
     position: relative;
     max-width: 500px;
@@ -162,6 +206,7 @@ aside{
     color: #F2F2F2;
 }
 
+/*Add comic book effect*/
 .messageUser:after{
     content: '';
     position: absolute;
@@ -178,13 +223,12 @@ aside{
 
 }
 
+/*Defines the characteristics of the area that contains the form*/
 .inputArea{
     grid-area: inputArea;
     padding-bottom: 10px;
-
-
-
 }
+
 form{
     display: flex;
     justify-content: flex-start;
@@ -193,6 +237,7 @@ form{
     padding-left:  10px;
 }
 
+/*Defines the characteristics of the user input area*/
 input{
     position: relative;
     top:-4px;
@@ -209,15 +254,13 @@ input{
 input:focus{
     outline: none;
 }
+
+/*Defines all the characteristics of the send button*/
 .button{
     align-self: flex-end;
     margin-left: 8px;
-
-
 }
-.button:hover{
 
-}
 .button>button{
     background: none;
     border: none;
@@ -227,10 +270,11 @@ input:focus{
     display: none;
 }
 .button>button:hover{
-    opacity: 0.6;
+    opacity: 0.7;
     cursor: pointer;
 }
 
+/*Defines the style of the footer*/
 footer{
     grid-area: footer;
     border-top: 1px solid grey;
@@ -258,6 +302,7 @@ footer{
     background-color: #F2F2F2;
     border-radius: 50px;
 }
+/*Defines responsive mode*/
 @media all and (max-width: 950px){
     #site{
         grid-template-columns: 1fr;
@@ -274,6 +319,7 @@ footer{
     }
 }
 
+/*All dark classes modifying certain parameters to integrate dark mode*/
 .dark{
     background: #222222;
     color: white;
@@ -322,8 +368,13 @@ footer{
     box-shadow :1px 1px 1px silver;
     background :#35363A;
 }
-
-
+.dark .banniere{
+    color: white;
+}
+.dark span{
+    color:#bfbcbc
+}
+/*All of the following classes define loading animation*/
 .loader {
   position: relative;
   width: 80px;
@@ -357,10 +408,12 @@ footer{
   width: 20px;
   height: 20px;
   border-radius: 10px;
-  background: #fff;
+  background: #3D4043;
   position: absolute;
 }
-
+.dark .dot{
+    background: #fff;
+}
 .dot-a {
   left: 0px;
 }

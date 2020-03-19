@@ -50,7 +50,6 @@ class GoogleClient:
                        "full_address": dict_to_clean["results"][0]["formatted_address"],
                        "types_place": dict_to_clean["results"][0]["types"],
                        "town": town,
-                       "department": department,
                        "error": ""}
 
     def get_location(self):
@@ -81,7 +80,8 @@ class GoogleClient:
             pass
         except (AssertionError, KeyError):
             self.result['error'] = "GoogleMaps API : No Result Found"
-        return self.result
+        finally:
+            return self.result
 
 
 if __name__ == "__main__":

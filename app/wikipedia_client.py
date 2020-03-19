@@ -1,5 +1,6 @@
 import requests
 import logging
+from app.params import params
 
 
 class GPSCoordinatesError(Exception):
@@ -22,23 +23,12 @@ class WikiClient:
         """
         self.coordinates = None
         self._url = "https://fr.wikipedia.org/w/api.php"
-        self._payload_geosearch = {
-            "action": "query",
-            "list": "geosearch",
-            "gscoord": "49.0170038|2.1236771",
-            "format": "json",
-            "gsradius": 3000}
+        self._payload_geosearch = params['payload_geosearch']
         self._pageids = None
-        self._payload_search_page = {
-            "action": "query",
-            "prop": "info|extracts",
-            "pageids": "",
-            "inprop": "url",
-            "exchars": 300,
-            "explaintext":"",
-            "format": "json"
-        }
-        self.result = {"title": "", "wiki_url": "", "extract": "", "error": ""}
+        self._payload_search_page = params['payload_search_page']
+        self._payload_pageimages = params['payload_pageimages']
+        self._payload_get_image = params['payload_get_image']
+        self.result = {"title": "", "wiki_url": "", "extract": "", "error": "", "image": "no image found"}
 
     def is_valid(self, coords):
         """
@@ -71,7 +61,7 @@ class WikiClient:
         self.result = {"title": dict_to_clean["query"]["pages"][str(self._pageids)]["title"],
                        "wiki_url": dict_to_clean["query"]["pages"][str(self._pageids)]["fullurl"],
                        "extract": dict_to_clean["query"]["pages"][str(self._pageids)]["extract"],
-                       "image":"",
+                       "image": "no image found",
                        "error": ""}
         return self.result
 
@@ -92,8 +82,21 @@ class WikiClient:
         geo_coords = result_json["query"]["geosearch"][0]["pageid"]
         return geo_coords
 
-    def _get_image(self, file):
-        pass
+    def _get_image(self):
+        """
+        Method not yet used which allows to recover the url of the image of the Wikipedia article.
+        Returns:
+            string : contains wikipedia article's url image
+        """
+        self._payload_pageimages['pageids'] = self._pageids
+        page_images_request = requests.get(self._url, self._payload_pageimages)
+        page_image_json = page_images_request.json()
+        self._payload_get_image[
+            "titles"] = f"Image:{page_image_json['query']['pages'][str(self._pageids)]['pageimage']}"
+        url_image_request = requests.get(self._url, self._payload_get_image)
+        url_image_json = url_image_request.json()
+        image_id = list(url_image_json['query']['pages'].keys())[0]
+        self.result['image'] = url_image_json['query']['pages'][image_id]["imageinfo"][0]["url"]
 
     def search_page(self, coords):
         """
@@ -108,7 +111,7 @@ class WikiClient:
         """
         try:
             self._pageids = self._geosearch(coords)
-            self._payload_search_page["pageids"]= self._pageids
+            self._payload_search_page["pageids"] = self._pageids
             result_requests = requests.get(self._url, params=self._payload_search_page)
             result_json = result_requests.json()
             self.result = self._clean_searchpage(result_json)

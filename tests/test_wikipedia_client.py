@@ -54,7 +54,8 @@ results = {
 
 
 def test_wiki_client_geosearch_return_nothing(monkeypatch, initialize_wikipedia_client_class):
-    result_nothing = {"title": "", "wiki_url": "", "extract": "", "error": "No result found in Wikipedia"}
+    result_nothing = {"title": "", "wiki_url": "", "extract": "", "error": "No result found in Wikipedia",
+                      "image": "no image found"}
 
     def mock_response_empty(*args, **kwargs):
         return MockRequestsGet(result={})
@@ -76,7 +77,7 @@ def test_wiki_client_geosearch_return_pageids(monkeypatch, initialize_wikipedia_
                      "extract": "L’incendie de Notre-Dame de Paris est un incendie majeur survenu "
                                 "à la cathédrale Notre-Dame de Paris, les 15 et 16 avril 2019, pendant près de "
                                 "15 heures.",
-                     "image": "",
+                     "image": "no image found",
                      "error": ""}
 
     def mock_normal_response(*args, **kwargs):
@@ -93,7 +94,8 @@ def test_wiki_client_geosearch_return_pageids(monkeypatch, initialize_wikipedia_
 
 
 def test_wiki_client_searchpage_requests_exception(monkeypatch, initialize_wikipedia_client_class, capsys):
-    result_error_server = {"title": "", "wiki_url": "", "extract": "", "error": "Problem Server"}
+    result_error_server = {"title": "", "wiki_url": "", "extract": "", "error": "Problem Server", "image": "no image "
+                                                                                                           "found"}
 
     def mock_response_error_server(*args, **kwargs):
         return MockRequestsGet(result={}, st_code=400)
@@ -115,7 +117,8 @@ def test_wiki_client_searchpage_requests_exception(monkeypatch, initialize_wikip
 
 
 def test_wiki_client_searchpage_return_keyerror(monkeypatch, initialize_wikipedia_client_class, capsys):
-    result_key_error = {"title": "", "wiki_url": "", "extract": "", "error": "No result found in Wikipedia"}
+    result_key_error = {"title": "", "wiki_url": "", "extract": "", "error": "No result found in Wikipedia",
+                        "image": "no image found"}
 
     def mock_response_error_server(*args, **kwargs):
         return MockRequestsGet(result=results["KEY_EEROR_RESULT"], st_code=200)
