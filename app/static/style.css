@@ -245,6 +245,8 @@ input{
     font-size: 16px;
     padding-left: 12px;
     background: #F2F2F2;
+    min-height:35px;
+
 
 }
 
@@ -279,7 +281,7 @@ footer{
     justify-content: flex-end;
     align-items: center;
     font-style: italic;
-    min-height: 0.5fr;
+
 
 }
 .socialNetwork{
@@ -288,13 +290,14 @@ footer{
     min-width: 200px;
     justify-content: flex-end;
     margin-top: 5px;
+    min-height: 100%;
 
 }
 .socialNetwork>a:hover{
     opacity: 0.6;
 }
 .socialNetwork a>img{
-    margin: 0 15px 0 0;
+    margin: 5px 15px 0 0;
 }
 
 .socialNetwork a>img[src*="github"]{
@@ -305,11 +308,13 @@ footer{
 @media screen and (max-width: 950px){
     #site{
         grid-template-columns: 1fr;
-        grid-template-rows: 0.7fr 4fr 1fr 0.5fr;
         grid-template-areas: "header"
         "messageArea"
         "inputArea"
         "footer";
+    }
+    header>h1{
+        font-size:1.7em;
     }
     aside{
         display: none;
