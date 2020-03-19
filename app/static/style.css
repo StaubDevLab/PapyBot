@@ -278,14 +278,15 @@ footer{
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-left: 10px;
     font-style: italic;
+
 }
 .socialNetwork{
     display: flex;
     width: 25%;
-    min-width: 400px;
+    min-width: 200px;
     justify-content: flex-end;
+    margin-top: 5px;
 
 }
 .socialNetwork>a:hover{
@@ -303,6 +304,7 @@ footer{
 @media all and (max-width: 950px){
     #site{
         grid-template-columns: 1fr;
+        grid-template-rows: 0.7fr 5fr 1fr 0.5fr;
         grid-template-areas: "header"
         "messageArea"
         "inputArea"
