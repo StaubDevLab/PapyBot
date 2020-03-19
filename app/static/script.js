@@ -8,7 +8,7 @@ function resetHeight(){
     document.querySelector('#site').style.height=window.innerHeight +"px";
 }
 window.addEventListener("resize", resetHeight);
-resetHeight()
+resetHeight();
 
 //DarkMode Event
 function darkMode(){
@@ -142,7 +142,7 @@ function bubbleLink(response) {
     blocPapy.prepend(imagePapy);
 
 }
-function bubbleMaps(response) {
+function bubbleMaps() {
 
     let blocPapy = document.createElement("div");
     let imagePapy = document.createElement("div");
@@ -193,8 +193,12 @@ function bubblePapyBotLoading(){
 
 //Change the text of the robot bubble and integrate the text generated following the analysis of user input
 function bubblePapyBot(response) {
-    messagePapy = document.querySelector('.blocPapy:last-child .messagePapy');
+    messagePapy = document.querySelector('.blocPapy:last-child .messagePapy').remove();
     messagePapy.classList.remove('loading');
+    if(response.position.coordinates){
+       bubbleMaps();
+       initMap(response);
+    }
     if (response.papybot_answer.extract){
         papyAnswer(response,messagePapy);
     }else{
@@ -202,10 +206,7 @@ function bubblePapyBot(response) {
     };
 
     console.log(response);
-    if(response.position.coordinates){
-       bubbleMaps(response);
 
-    }
 
 }
 
@@ -229,12 +230,12 @@ formulaire.addEventListener('submit',(e)=>{
     document.querySelector(`.blocUser:last-child`).scrollIntoView();
     bubblePapyBotLoading();
     document.querySelector(`.blocPapy:last-child`).scrollIntoView();
+    input.blur();
      postData('/ajax', new FormData(formulaire))
     .then(response =>{
         if (response.papybot_answer.extract){
             wait(1500);
             bubblePapyBot(response);
-            initMap(response);
             document.querySelector(`.blocPapy:last-child`).scrollIntoView();
         }else{
             wait(1500);
