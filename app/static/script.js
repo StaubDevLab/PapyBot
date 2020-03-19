@@ -193,7 +193,7 @@ function bubblePapyBotLoading(){
 
 //Change the text of the robot bubble and integrate the text generated following the analysis of user input
 function bubblePapyBot(response) {
-    messagePapy = document.querySelector('.blocPapy:last-child .messagePapy').remove();
+    messagePapy = document.querySelector('.blocPapy:last-child .messagePapy');
     messagePapy.classList.remove('loading');
     if(response.position.coordinates){
        bubbleMaps();
