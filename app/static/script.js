@@ -45,6 +45,18 @@ function randomChoice(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+//Submit Button Effect
+function submitButton(){
+    if (input.value != ""){
+        btn.style.display = 'block';
+        input.style.width='90%';
+    }else{
+        btn.style.display ='none';
+        input.style.width='100%';
+    }
+
+}
+
 function initMap(response){
     var myLatLng = response.position.coordinates;
 
@@ -89,13 +101,13 @@ function papyAnswer(response, balise) {
     
     </ul>
    
-    Ca te plaît? Alors mets un pouce bleu, non je rigole t'es pas sur Youtube.<br>
-    Retrouve directement cet article sur  <a href="${response.papybot_answer.wiki_url}">Wikipedia.com</a>`,
+    Ça te plaît? Alors mets un pouce bleu, non je rigole t'es pas sur Youtube.
+    <a href="${response.papybot_answer.wiki_url}">[En savoir plus sur Wikipedia.org]</a>`,
     `J'aime vraiment la ville de <strong>${response.position.town}</strong>. Et si je te
      racontais une histoire sur : <strong>${response.papybot_answer.title}</strong><br>
     ${response.papybot_answer.extract}
     <br>Tu peux retrouver la suite de cette histoire en allant sur le lien suivant : 
-   <a href="${response.papybot_answer.wiki_url}" target="_blank">Wikipedia.com</a><br>`];
+   <a href="${response.papybot_answer.wiki_url}" target="_blank">[En savoir plus sur Wikipedia.org]</a><br>`];
 
     balise.innerHTML = randomChoice(answers);
 
@@ -103,7 +115,7 @@ function papyAnswer(response, balise) {
 
 function errorAnswer(response, balise) {
 
-    balise.innerHTML  = `Oula gamin(e), tu vas bien trop vite pour mon vieil âge. Je n'ai malheuresement pas compris ce que
+    balise.innerHTML  = `Oula gamin(e), tu vas bien trop vite pour mon vieil âge. Je n'ai malheureusement pas compris ce que
      tu m'as demandé. <br>
     Tu sais je me fais sourd et c'est difficile pour moi de comprendre les jeunes de ton âge. <br>
     Pour bien que je te comprenne écris ta demande sous cette forme : <br>
@@ -112,7 +124,7 @@ function errorAnswer(response, balise) {
         <li>Dis moi où se situe {ton lieu}</li>
         <li>Je veux aller à {ton lieu}</li>
         <li>Je veux partir à {ton lieu}</li>
-        <li>Ou est {ton lieu}</li>
+        <li>Où est {ton lieu}</li>
         <li>{ton lieu}</li>
     </ul>
     A toi gamin(e)!`;
@@ -244,18 +256,13 @@ formulaire.addEventListener('submit',(e)=>{
         }
     });
      input.value="";
+     submitButton();
 });
 
 //Event that displays the send button when the user types on the keyboard
 input.addEventListener('keyup',() =>{
 
-    if (input.value != ""){
-        btn.style.display = 'block';
-        input.style.width='90%'
-    }else{
-        btn.style.display ='none';
-        input.style.width='100%'
-    }
+   submitButton()
 
 });
 
