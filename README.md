@@ -14,7 +14,7 @@ First you have to retrieve **information about a place** in the user's message. 
 *General operation diagram:*
 ![general_operation](datas/general_operation.png)
 
-##Visual
+## Visual
 ### User Storie Démo : 
 ![visual_data](datas/visual_gene.png)
 

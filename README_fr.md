@@ -23,7 +23,7 @@ L'application utilise également les **coordonnées GPS** pour afficher **une ca
 Lorsque l'utilisateur réactualise la page PapyBot reprend son script à zéro. 
 *Diagrramme du fonctionnement général:* 
 ![general_operation](datas/general_operation.png)
-##Visuel
+## Visuel
 ### Démonstration du parcours utilisateur : 
 ![visual_data](datas/visual_gene.png)
 
