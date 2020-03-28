@@ -6,6 +6,9 @@ let darkBtn = document.querySelector('.btn-dark-mode');
 //Responsive Mode
 function resetHeight(){
     document.querySelector('#site').style.height=window.innerHeight +"px";
+    if (window.innerWidth>600){
+        input.focus();
+    }
 }
 window.addEventListener("resize", resetHeight);
 resetHeight();

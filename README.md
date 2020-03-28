@@ -38,8 +38,8 @@ First you have to retrieve **information about a place** in the user's message. 
 Explanation of the methods for each application package. First of all, two environment variables must be defined, in a .env file for example.Attention, I point out here that my code is ultra decomposed, I could have divided the number of lines by two, I deliberately wanted to decompose each step and not to carry out 10 operations on a single line. This code is for educational purposes.
 
 ```python
-GMAPS_API_KEY = "" #Clé d'API privé qui permettra les requêtes vers Geocode
-GMAPS_API_KEY_PUBLIC = "" #Clé d'API publique qui est utilisée côté front pour l'affichage de la carte
+GMAPS_API_KEY = "" #Private API KEY for Geocode API les requêtes vers Geocode
+GMAPS_API_KEY_PUBLIC = "" #Public API KEY  used on the front side to display the map
 ```
 ### Parser
 Package which allows to analyze the text written by the user and to extract from it only useful information such as place, address, monument ...

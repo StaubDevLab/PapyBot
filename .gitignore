@@ -4,3 +4,6 @@
 .pytest_cache/
 .*idea*
 .env
+.coverage
+.coveragerc
+htmlcov/
