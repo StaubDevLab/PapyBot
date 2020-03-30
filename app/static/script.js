@@ -105,7 +105,7 @@ function papyAnswer(response, balise) {
     </ul>
    
     Ça te plaît? Alors mets un pouce bleu, non je rigole t'es pas sur Youtube.
-    <a href="${response.papybot_answer.wiki_url}">[En savoir plus sur Wikipedia.org]</a>`,
+    <a href="${response.papybot_answer.wiki_url}" target="_blank">[En savoir plus sur Wikipedia.org]</a>`,
     `J'aime vraiment la ville de <strong>${response.position.town}</strong>. Et si je te
      racontais une histoire sur : <strong>${response.papybot_answer.title}</strong><br>
     ${response.papybot_answer.extract}
@@ -235,7 +235,6 @@ function postData(url, data){
     .catch(error =>console.log(error));
 }
 
-
 //Form submission event. The default behavior is canceled. the user's text is processed
 //and integrated into the DOM, a response from the robot is integrated into the DOM.
 formulaire.addEventListener('submit',(e)=>{
@@ -248,15 +247,9 @@ formulaire.addEventListener('submit',(e)=>{
     input.blur();
      postData('/ajax', new FormData(formulaire))
     .then(response =>{
-        if (response.papybot_answer.extract){
             wait(1500);
-            bubblePapyBot(response);
-            document.querySelector(`.blocPapy:last-child`).scrollIntoView();
-        }else{
-            wait(1500);
-            bubblePapyBot(response);
-            document.querySelector(`.blocPapy:last-child`).scrollIntoView();
-        }
+            bubblePapyBot(response);document.querySelector(`.blocPapy:last-child`).scrollIntoView();
+
     });
      input.value="";
      submitButton();
